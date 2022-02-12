@@ -6,7 +6,7 @@ import java.util.Queue;
 
 public class Task1 implements Runnable {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new Thread(null, new Task1(), "", 64 * 1024 * 1024).start();
     }
 
@@ -57,7 +57,7 @@ class Tree {
        if(node != null){
           writer.write(node.getValue().toString() + "\n");
           leftDetour(node.getLeftChild(), writer);
-           leftDetour(node.getRightChild(), writer);
+          leftDetour(node.getRightChild(), writer);
        }
     }
     public Node delete(Node node, Integer key){
