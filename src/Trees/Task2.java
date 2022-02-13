@@ -11,8 +11,8 @@ public class Task2 implements Runnable {
     @Override
     public void run() {
         boolean flag = true;
-        try(BufferedWriter write = new BufferedWriter(new FileWriter("bst.out"))){
-            BufferedReader reader = new BufferedReader(new FileReader("bst.in"));
+        try(BufferedWriter write = new BufferedWriter(new FileWriter("tst.out"))){
+            BufferedReader reader = new BufferedReader(new FileReader("tst.in"));
             int tree[] = new int[Integer.parseInt(reader.readLine())];
             tree[0] = Integer.parseInt(reader.readLine());
             int pos = 1;
