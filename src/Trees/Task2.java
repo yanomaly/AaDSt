@@ -11,15 +11,20 @@
         @Override
         public void run() {
             boolean flag = true;
-            try(BufferedWriter write = new BufferedWriter(new FileWriter("bst.out"))){
-                BufferedReader reader = new BufferedReader(new FileReader("bst.in"));
+            try(BufferedWriter write = new BufferedWriter(new FileWriter("tst.out"))){
+                BufferedReader reader = new BufferedReader(new FileReader("tst.in"));
                 int size = Integer.parseInt(reader.readLine());
                 int tree[] = new int[size];
-                int parents[] = new int[size];
-                String LR[] = new String[size];
+                int leftVmi[] = new int[size];
+                int leftVma[] = new int[size];
+                int rightVmi[] = new int[size];
+                int rightVma[] = new int[size];
                 tree[0] = Integer.parseInt(reader.readLine());
-                parents[0] = -1;
-                int pos = 1, prt;
+                leftVmi[0] = Integer.MIN_VALUE;
+                leftVma[0] = tree[0];
+                rightVmi[0] = tree[0];
+                rightVma[0] = Integer.MAX_VALUE;
+                int pos = 1;
                 String temp = reader.readLine();
                 while(temp != null){
                     String[] sep = temp.split(" ");
@@ -27,55 +32,25 @@
                     int par = Integer.parseInt(sep[1]) - 1;
                     int par2 = par;
                     String side = sep[2];
-                    if(side.equals("L")) {
-                        if (tree[par] <= val) {
+                    if(side.equals("L")){
+                        leftVmi[pos] = leftVmi[par];
+                        leftVma[pos] = val;
+                        if(val < leftVmi[par] || val >= leftVma[par]){
                             flag = false;
                             break;
-                        }
-                        prt = parents[par];
-                        while (prt != -1) {
-                            if (LR[par].equals("L")) { //тут хуёво
-                                if (tree[prt] <= val) {
-                                    flag = false;
-                                    break;
-                                }
-                            } else {
-                                if (tree[prt] > val) {
-                                    flag = false;
-                                    break;
-                                }
-                            }
-                            par = prt;
-                            prt = parents[prt];
                         }
                     }
                     else{
-                        if(tree[par] > val){
+                        rightVma[pos] = rightVma[par];
+                        leftVmi[pos] = val;
+                        if(val < rightVmi[par] || val >= rightVma[par]){
                             flag = false;
                             break;
                         }
-                        prt = parents[par];
-                        while (prt != -1) {
-                            if (LR[par].equals("L")) { //и тут хуёво
-                                if (tree[prt] <= val) {
-                                    flag = false;
-                                    break;
-                                }
-                            } else {
-                                if (tree[prt] > val) {
-                                    flag = false;
-                                    break;
-                                }
-                            }
-                            par = prt;
-                            prt = parents[prt];
-                        }
                     }
                     tree[pos] = val;
-                    parents[pos] = par2;
-                    LR[pos] = side;
-                    pos++;
                     temp = reader.readLine();
+                    pos++;
                 }
                 if(flag)
                     write.write("YES");
