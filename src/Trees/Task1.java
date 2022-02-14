@@ -160,17 +160,18 @@ class Tree {
         if(node.getLeftChild() != null && node.getRightChild() != null){
             node.setSRT(node.getLSR().equals(LSR) ? node.getRightChild().getLeaflets() * node.getLeftChild().getLeaflets() : 0 );
             var(node.getLeftChild(), node.getRightChild(), node.getLSRnUTc(), node.getLSRnUT());
-            var(node.getRightChild(), node.getLeftChild(),  node.getLSRnUTc(), node.getLSRnUT());
+            var(node.getRightChild(), node.getLeftChild(), node.getLSRnUTc(), node.getLSRnUT());
         }
         if(!node.equals(root) && LSR.equals(node.getLSRnUT() + node.getHeight()))
             node.setSRI(node.getLSRnUTc() * node.getLeaflets());
-        if((node.getSRI() + node.getSRT()) % 2 == 0){
+        if((node.getSRT() != null && node.getSRI() != null) && ((node.getSRI() + node.getSRT()) % 2 == 0)){
             if(flag){
                 del = node.getValue();
                 flag = false;
             }
             if(del.compareTo(node.getValue()) > 0)
                 del = node.getValue();
+
         }
 
     }
