@@ -35,6 +35,8 @@
                     if(side.equals("L")){
                         leftVmi[pos] = leftVmi[par];
                         leftVma[pos] = val;
+                        rightVmi[pos] = val;
+                        rightVma[pos] = tree[par];
                         if(val < leftVmi[par] || val >= leftVma[par]){
                             flag = false;
                             break;
@@ -42,8 +44,10 @@
                     }
                     else{
                         rightVma[pos] = rightVma[par];
-                        leftVmi[pos] = val;
-                        if(val < rightVmi[par] || val >= rightVma[par]){
+                        rightVmi[pos] = val;
+                        leftVma[pos] = val;
+                        leftVmi[pos] = tree[par];
+                        if(val != 2147483647 && (val < rightVmi[par] || val >= rightVma[par])){
                             flag = false;
                             break;
                         }
