@@ -20,7 +20,7 @@ public class Task1 implements Runnable {
             tree.getRoot().setLSRnUT(0);
             tree.getRoot().setLSRnUTc(1);
             tree.leftDetour(tree.getRoot());
-            if(!tree.getFlag())
+            if(tree.getFlag())
             tree.delete(tree.getRoot(), tree.getDel());
             tree.leftDetour(tree.getRoot(), write);
         } catch (IOException e) {
@@ -32,8 +32,8 @@ public class Task1 implements Runnable {
 class Tree {
     private Integer LSR = 0;
     private Node root;
-    private Integer del;
-    private Boolean flag = true;
+    private Integer del = Integer.MAX_VALUE;
+    private Boolean flag = false;
     public Node getRoot() {
         return root;
     }
@@ -164,16 +164,12 @@ class Tree {
         }
         if(!node.equals(root) && LSR.equals(node.getLSRnUT() + node.getHeight()))
             node.setSRI(node.getLSRnUTc() * node.getLeaflets());
-        if((node.getSRT() != null && node.getSRI() != null) && ((node.getSRI() + node.getSRT()) % 2 == 0)){
-            if(flag){
+        else
+            node.setSRI(0);
+        if(node.getSRI() + node.getSRT() != 0 && (node.getSRI() + node.getSRT()) % 2 == 0 && del.compareTo(node.getValue()) >= 0){
                 del = node.getValue();
-                flag = false;
-            }
-            if(del.compareTo(node.getValue()) > 0)
-                del = node.getValue();
-
+                flag = true;
         }
-
     }
     public void var(Node nodeL, Node nodeR, Integer LSRnUTc, Integer LSRnUT){
         if(LSRnUT.equals(nodeR.getHeight() + 1)){
@@ -191,7 +187,7 @@ class Tree {
     }
 }
 
-class Node {
+class  Node {
     private Integer LSR = 0;
 
     private Integer LSRnUT; //длина наибольшего полупути из вершины в другую не через поддерево
