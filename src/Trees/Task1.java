@@ -14,6 +14,7 @@ public class Task1 implements Runnable {
     public void run() {
         Tree tree = new Tree();
         try(BufferedWriter write = new BufferedWriter(new FileWriter("tst.out"))){
+//            new Random().random();
             tree.generate("tst.in");
             tree.lefrDetourReverce(tree.getRoot());
             tree.getRoot().setSRI(0);
@@ -137,7 +138,7 @@ class Tree {
         }
         if(node.getLeftChild() != null && node.getRightChild() != null){
             node.setHeight(node.getRightChild().getHeight().compareTo(node.getLeftChild().getHeight()) >= 0 ? node.getRightChild().getHeight() + 1 : node.getLeftChild().getHeight() + 1);
-            node.setLeaflets(node.getRightChild().getLeaflets().compareTo(node.getLeftChild().getLeaflets()) == 0 ? node.getRightChild().getLeaflets() + node.getLeftChild().getLeaflets() : node.getRightChild().getLeaflets().compareTo(node.getLeftChild().getLeaflets()) > 0 ? node.getRightChild().getLeaflets() : node.getLeftChild().getLeaflets());
+            node.setLeaflets(node.getRightChild().getHeight().compareTo(node.getLeftChild().getHeight()) == 0 ? node.getRightChild().getLeaflets() + node.getLeftChild().getLeaflets() : node.getRightChild().getHeight().compareTo(node.getLeftChild().getHeight()) > 0 ? node.getRightChild().getLeaflets() : node.getLeftChild().getLeaflets());
             node.setLSR(node.getLeftChild().getHeight() + node.getRightChild().getHeight() + 2);
             if(node.getLSR().compareTo(LSR) > 0)
                 LSR = node.getLSR();
@@ -268,4 +269,19 @@ class  Node {
     public void setRightChild(Node rightChild) {
         this.rightChild = rightChild;
     }
+}
+
+class Random{
+
+    public void random() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File("tst.in")));
+        Integer size = new java.util.Random().nextInt() % 20;
+        String out = "";
+        for (int i = 0; i < size - 1; i++)
+            out += ((int)((new java.util.Random().nextInt() % 100) * Math.pow(-1, new java.util.Random().nextInt() % 2)) + "\n");
+        out += ((int)((new java.util.Random().nextInt() % 100) * Math.pow(-1, new java.util.Random().nextInt() % 2)));
+        writer.write(out);
+        writer.close();
+    }
+
 }
