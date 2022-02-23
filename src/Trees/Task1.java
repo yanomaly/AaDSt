@@ -14,7 +14,6 @@ public class Task1 implements Runnable {
     public void run() {
         Tree tree = new Tree();
         try(BufferedWriter write = new BufferedWriter(new FileWriter("tst.out"))){
-//            new Random().random();
             tree.generate("tst.in");
             tree.lefrDetourReverce(tree.getRoot());
             tree.getRoot().setSRI(0);
@@ -22,7 +21,7 @@ public class Task1 implements Runnable {
             tree.getRoot().setLSRnUTc(1);
             tree.leftDetour(tree.getRoot());
             if(tree.getFlag())
-            tree.delete(tree.getRoot(), tree.getDel());
+            tree.setRoot(tree.delete(tree.getRoot(), tree.getDel()));
             tree.leftDetour(tree.getRoot(), write);
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,6 +42,9 @@ class Tree {
     }
     public Boolean getFlag() {
         return flag;
+    }
+    public void setRoot(Node root) {
+        this.root = root;
     }
 
     public void generate(String filePath) throws IOException {
@@ -269,19 +271,4 @@ class  Node {
     public void setRightChild(Node rightChild) {
         this.rightChild = rightChild;
     }
-}
-
-class Random{
-
-    public void random() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(new File("tst.in")));
-        Integer size = new java.util.Random().nextInt() % 20;
-        String out = "";
-        for (int i = 0; i < size - 1; i++)
-            out += ((int)((new java.util.Random().nextInt() % 100) * Math.pow(-1, new java.util.Random().nextInt() % 2)) + "\n");
-        out += ((int)((new java.util.Random().nextInt() % 100) * Math.pow(-1, new java.util.Random().nextInt() % 2)));
-        writer.write(out);
-        writer.close();
-    }
-
 }
