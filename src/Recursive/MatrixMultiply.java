@@ -6,19 +6,19 @@ public class MatrixMultiply {
     private int[][] operations;
 
     public Integer action(int[][] matrix, int length){
-        operations = new int[length + 1][length + 1];
-        for (int i = 1; i <= length - 1; i++) {
-            for (int j = 1; j <= length - i; j++) {
+        operations = new int[length][length];
+        for (int i = 0; i < length - 1; i++) {
+            for (int j = 0; j < length - i - 1; j++) {
                 int minOperations = Integer.MAX_VALUE;
-                int k = i + j;
+                int k = i + j + 1;
                 for (int l = j; l <= k - 1; l++) {
-                    if(minOperations > operations[j][l] + operations[l + 1][k] + matrix[j - 1][0]*matrix[l - 1][1]*matrix[k - 1][1])
-                        minOperations = operations[j][l] + operations[l + 1][k] + matrix[j - 1][0]*matrix[l - 1][1]*matrix[k - 1][1];
+                    if(minOperations > operations[j][l] + operations[l + 1][k] + matrix[j][0]*matrix[l][1]*matrix[k][1])
+                        minOperations = operations[j][l] + operations[l + 1][k] + matrix[j][0]*matrix[l][1]*matrix[k][1];
                 }
                 operations[j][k] = minOperations;
             }
         }
-        return operations[1][length];
+        return operations[0][length - 1];
     }
 
     public static void main(String[] args) throws IOException {
