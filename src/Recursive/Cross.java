@@ -1,4 +1,4 @@
-package Trees;
+package Recursive;
 
 import java.io.*;
 

@@ -15,7 +15,6 @@ public class Roads {
             return parent[elem - 1];
         }
     }
-
     public static boolean unite(int x, int y){
         x = belong(x);
         y = belong(y);
@@ -55,6 +54,7 @@ public class Roads {
                     coherency--;
                 writer.write(coherency + "\n");
             }
+            System.out.println(1);
         }
     }
 }
