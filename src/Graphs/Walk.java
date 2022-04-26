@@ -18,12 +18,13 @@ public class Walk {
                 <=
                 sqrt(pow(human[human_pos][0] - human[human_pos][2], 2) + pow(human[human_pos][1] - human[human_pos][3], 2));
     } //успеет ли собака забежать в выбранную точку, пока человек идёт по выбранному переходу
+
     static boolean dfs(int numb){ //???
         if(visit[numb] == 1)
             return false;
         visit[numb] = 1;
         for (int i = 0; i < place_row[numb].length; i++) {
-            if((place_row[numb][i] == 1 && match[i] == -1) || dfs(i)){
+            if((place_row[numb][i] == 1) && (match[i] == -1 || dfs(i))){
                 match[i] = numb;
                 return true;
             }
@@ -82,7 +83,7 @@ public class Walk {
             }
         }
 
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 0; i < n - 1; i++) { //обход графа
             if(activeVisit[i] != 1 && dfs(i))
                 for (int j = 0; j < m; j++)
                     visit[j] = 0;
