@@ -95,7 +95,7 @@ public class MathLesson {
             active.add(0);
             while(count_num < size){
                 numb = read(reader);
-                if(active.isEmpty() || count[active.peek()] >= count_num || result[active.peek()] + result[count[active.peek()]] > numb){
+                if(active.isEmpty() || count[active.peek()] == count_num || result[active.peek()] + result[count[active.peek()]] > numb){
                     result[count_num] = numb - result[0];
                     writer.write(result[count_num] + "\n");
                     count[count_num] = 1;

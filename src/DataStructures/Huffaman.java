@@ -43,7 +43,8 @@ public class Huffaman {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
+        long start = System.nanoTime();
+        BufferedReader reader = new BufferedReader(new FileReader("huffman.in"));
         int size = Integer.parseInt(reader.readLine());
         Tree tree = new Tree();
         String arr[] = reader.readLine().split(" ");
@@ -58,8 +59,10 @@ public class Huffaman {
             tree.root = next;
         }
         Huffaman.detour(tree.root, 0L);
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))){
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("huffman.out"))){
             writer.write(String.valueOf(length));
         }
+        long finish = System.nanoTime();
+        System.out.println(finish - start);
     }
 }
