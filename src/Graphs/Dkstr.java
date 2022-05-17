@@ -1,13 +1,23 @@
 package Graphs;
 
 import java.io.*;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Dkstr {
 
+    static class edge{
+        public int vertex;
+        public int weight;
+
+        public edge(int vertex, int weight) {
+            this.vertex = vertex;
+            this.weight = weight;
+        }
+    }
+
     static int[] dist;
     static boolean[] visited;
-    static int[][] matrix;
+    static ArrayList<ArrayList<edge>> adjacency = new ArrayList<>();
     static int vertexes;
     static int edges;
 
@@ -18,9 +28,8 @@ public class Dkstr {
         edges = Integer.parseInt(row[1]);
         dist = new int[vertexes];
         visited = new boolean[vertexes];
-        matrix = new int[vertexes][vertexes];
         for (int i = 0; i < vertexes; i++)
-            Arrays.fill(matrix[i], -1);
+            adjacency.add(new ArrayList<>());
         dist[0] = 0;
         for (int i = 1; i < vertexes; i++)
             dist[i] = (int)(0.8 *Integer.MAX_VALUE);
@@ -30,19 +39,30 @@ public class Dkstr {
             int v = Integer.parseInt(row[1]) - 1;
             int weight = Integer.parseInt(row[2]);
             if(u != v) {
-                if (matrix[u][v] == -1) {
-                    matrix[u][v] = weight;
-                    matrix[v][u] = matrix[u][v];
-                } else if (weight < matrix[u][v]) {
-                    matrix[u][v] = weight;
-                    matrix[v][u] = matrix[u][v];
+                int pos = 0;
+                boolean flag = false;
+                for (int j = 0; j < adjacency.get(u).size(); j++)
+                    if(adjacency.get(u).get(j).vertex == v) {
+                        flag = true;
+                        pos = j;
+                    }
+                if (!flag) {
+                    adjacency.get(u).add(new edge(v, weight));
+                    adjacency.get(v).add(new edge(v, weight));
+                } else if (weight < adjacency.get(u).get(pos).weight) {
+                    adjacency.get(u).remove(pos);
+                    adjacency.get(u).add(new edge(v, weight));
+                    for (int j = 0; j < adjacency.get(v).size(); j++)
+                        if(adjacency.get(v).get(j).vertex == u) {
+                            adjacency.get(v).remove(j);
+                            adjacency.get(v).add(new edge(v, weight));
+                        }
                 }
             }
         }
 
-        for (int i = 0; i < vertexes; i++)
-            if(matrix[0][i] != -1)
-                dist[i] = matrix[0][i];
+        for (int i = 0; i < adjacency.get(0).size(); i++)
+                dist[adjacency.get(0).get(i).vertex] = adjacency.get(0).get(i).weight;
 
         while(true){
             int min_dist = -1;
@@ -52,14 +72,12 @@ public class Dkstr {
             if(min_dist == -1 || dist[min_dist] == (int)(0.8 *Integer.MAX_VALUE))
                 break;
             visited[min_dist] = true;
-            for (int i = 0; i < vertexes; i++) {
-                if(matrix[i][min_dist] != -1)
-                    dist[i] = Math.min(dist[i], dist[min_dist] + matrix[i][min_dist]);
-            }
+            for (int i = 0; i < adjacency.get(min_dist).size(); i++)
+                dist[adjacency.get(min_dist).get(i).vertex] = Math.min(dist[adjacency.get(min_dist).get(i).vertex], dist[min_dist] + adjacency.get(min_dist).get(i).weight);
         }
 
         try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("output.txt")))){
-            writer.write(String.valueOf(dist[vertexes -1 ]));
+            writer.write(String.valueOf(dist[vertexes - 1]));
         }
     }
 }
